@@ -55,7 +55,11 @@ def patient_normalize(data):
     NaN values are ignored, and normalized to 0.
 
     Negative values are rounded to 0.
+
+    Precondition check to raise an error on negative inflammation values.
     """
+    if np.any(data < 0):
+        raise ValueError('Inflammation values should not be negative')
     max = np.nanmax(data, axis=1)
     with np.errstate(invalid='ignore', divide='ignore'):
         normalized = data / max[:, np.newaxis]
